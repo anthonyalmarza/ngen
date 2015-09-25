@@ -1,5 +1,7 @@
 # Ngen
 
+[![Build Status](https://travis-ci.org/anthonyalmarza/ngen.svg?branch=master)](https://travis-ci.org/anthonyalmarza/ngen)
+
 `ngen` is a utility library housing commonly used design patterns.
 
 
