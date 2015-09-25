@@ -10,6 +10,7 @@ Currently available:
 On it's way:
 
 * Transitions (Finite State Machines)
+* Trees
 
 
 ### Inspiration for the name

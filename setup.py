@@ -8,7 +8,7 @@ setup(
     version=ngen.__version__,
     packages=find_packages(exclude=["tests*", ]),
     url="https://github.com/anthonyalmarza/ngen",
-    description="This app handles all communictions on the Reelio Platform.",
+    description="`ngen` is a utility library housing commonly used design patterns.",
     classifiers=[
         'Intended Audience :: Developers',
         'Natural Language :: English',
