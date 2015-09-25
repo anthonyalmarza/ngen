@@ -10,6 +10,16 @@ class Catalog(Singleton):
         self.registry = {}
 
 
+class Mixin(object):
+
+    def hello(self):
+        return 'sup ' + self.name if hasattr(self, 'name') else 'nope'
+
+
+class Frank(Catalog, Mixin):
+    pass
+
+
 class SingletonTests(TestCase):
 
     def setUp(self):
@@ -33,11 +43,13 @@ class SingletonInheritanceTests(TestCase):
     def setUp(self):
         self.singleton = Singleton()
         self.catalog = Catalog()
+        self.frank = Frank()
 
     def tearDown(self):
         # clear out the singletons
         self.singleton._instance = None
         self.catalog._instance = None
+        self.frank._instance = None
 
     def test_not_effected_by_instantiating_Singleton_first(self):
         self.assertTrue(self.catalog is not self.singleton)
@@ -49,6 +61,13 @@ class SingletonInheritanceTests(TestCase):
         self.catalog.registry['foo'] = 'bar'
         self.catalog.reset()
         self.assertEqual(self.catalog.registry, {})
+
+    def test_mixins_work_with_attr_assignment(self):
+        self.frank.name = 'sam'
+        self.assertEqual(self.frank.hello(), 'sup sam')
+
+    def test_mixins_work(self):
+        self.assertEqual(self.frank.hello(), 'nope')
 
 
 class StillSingletonPrime(SingletonPrime):
