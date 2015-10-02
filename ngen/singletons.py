@@ -1,4 +1,6 @@
 import six
+from functools import wraps
+from threading import Lock
 
 
 class SingletonBase(type):
@@ -31,10 +33,12 @@ class WeakSingleton(six.with_metaclass(SingletonBase)):
     """
 
     _instance = None
+    _mutex = None
 
     def __new__(cls):
         if cls._instance is None:
             cls._instance = object.__new__(cls)
+            cls._mutex = Lock()
             cls._instance.setUp()
         return cls._instance
 
@@ -45,6 +49,10 @@ class WeakSingleton(six.with_metaclass(SingletonBase)):
             object.
         """
         pass
+
+    @property
+    def lock(self):
+        return self._mutex
 
     def reset(self):
         self.setUp()
@@ -81,3 +89,12 @@ class StrongSingleton(object):
 
 Singleton = WeakSingleton
 SingletonPrime = StrongSingleton
+
+
+def lock(func):
+    @wraps(func)
+    def wrapper(self, *args, **kwargs):
+        with self.lock:
+            ret = func(self, *args, **kwargs)
+        return ret
+    return wrapper
