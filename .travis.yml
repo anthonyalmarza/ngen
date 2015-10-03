@@ -5,7 +5,7 @@ install: pip install -e .[dev]
 script: trial ngen
 deploy:
   provider: pypi
-  username: anthonyalmarza
+  user: anthonyalmarza
   password:
     secure: l7/I1/RJqT5Fx96+cp8Utz2GuYVatW8nTiUJPRd5/7+xP2sKQXeWMOsUzzjjpAmJ2J6ix2jjxjiYSk4jcq2rtJL6bANmKkVwvifByW/yVBIbIVoeLl7Ju6afhrxJ9Qj41IJAA6rYVc+8avVvJRd+MfTZRli8VwMcFGAJ2GEWWV+haiUyH9l9i85AHo5SeBlnVY575RtoFr3p7LZNQMuzKieJmqs9pdoPZ9W8DJz+aIj24Furm2kQLkYgoUc0TBhomlqUcDtaXCeWG7VS2PUZHK2n6k7VlJPef6bO5v0lvW9oAcPBs4hl0R7eNB90m/lfemzes7sIavdj2QUcipngGGb/Sss/dY6KiWza97frsZ/yNLneR3hAaSf3UzUZE34Uvs7cms29sA0qSAnA8JXAK1bbPQyhrMNlFgNZHlAOn8egr7i4/Dz8cE9I7q42dKvwGHub9jrvdEVEjJ34wI52An5PUd3CeKMushIDv5k9OjV3ilxKxnkzqKmTR/Bgx8QSAIUJcjFbn7XEHo3QyfCwTPUIJTbcM/QzPQ+1YGVuGibTlpNwKGdVG9IbanJxM4yovTDN+j4oWirg0WfugKa1wP1A3g5oXsHFwSJ53Q0CAAh0H/AvUdBkVcvJKoS7QHKpRtPnNaRQrdvTsKxjsdTlwlRNXqTRgHuJCgtydLv9Arc=
   on:
