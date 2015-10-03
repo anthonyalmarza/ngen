@@ -106,7 +106,7 @@ class SingletonPrimeTests(TestCase):
         self.assertEqual(b.food, 'bar')
 
 
-EXPECTED = range(300)
+EXPECTED = range(600)
 
 
 class ThreadNeverSafeSingleton(Singleton):
