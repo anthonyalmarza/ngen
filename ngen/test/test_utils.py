@@ -14,7 +14,6 @@ class Thing(object):
         return self.multiplier * 3
 
 
-
 class UtilsTests(TestCase):
 
     def setUp(self):
