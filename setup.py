@@ -6,7 +6,7 @@ setup(
     author="Anthony",
     name="ngen",
     version=ngen.__version__,
-    packages=find_packages(exclude=["tests*", ]),
+    packages=find_packages(exclude=["test*", ]),
     url="https://github.com/anthonyalmarza/ngen",
     description=(
         "`ngen` is a utility library housing commonly used design patterns."
