@@ -1,9 +1,6 @@
 from functools import wraps
 from .utils import cached_property
-
-
-class Error(Exception):
-    pass
+from exceptions import Error
 
 
 class TransitionError(Error):
@@ -38,11 +35,16 @@ class TransitionBase(object):
 
             self.run_transition(instance)
 
+            self.post_transition(instance)
+
             return ret
         return wrapper
 
     def run_transition(self, instance):
         setattr(instance, self.field_name, self.to_state)
+
+    def post_transition(self, instance):
+        pass
 
     @cached_property
     def allowed_states(self):

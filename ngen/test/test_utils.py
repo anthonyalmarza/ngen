@@ -1,5 +1,5 @@
 from twisted.trial.unittest import TestCase
-from ngen.utils import cached_property
+from ngen.utils import cached_property, chunk
 
 
 class Thing(object):
@@ -40,3 +40,31 @@ class UtilsTests(TestCase):
         # this means that deleting the function name from the set of keys in
         # the instance's __dict__ you have effectively busted the cache.
         self.assertEqual(self.instance.stuff, 12)
+
+    def test_chunk(self):
+
+        array = range(10)
+        chunky = chunk(array, 2)
+
+        self.assertEqual(len(chunky), 5)
+
+        self.assertEqual(len(chunky[0]), 2)
+        self.assertEqual(len(chunky[-1]), 2)
+
+        chunky = chunk(array, 3)
+        self.assertEqual(len(chunky), 4)
+
+        self.assertEqual(len(chunky[0]), 3)
+        self.assertEqual(len(chunky[-1]), 1)
+
+        chunky = chunk(array, 3, strict=True)
+        self.assertEqual(len(chunky), 3)
+
+        self.assertEqual(len(chunky[0]), 3)
+        self.assertEqual(len(chunky[-1]), 3)
+
+        chunky = chunk(tuple(array), 3, strict=True)
+        self.assertEqual(len(chunky), 3)
+
+        self.assertEqual(len(chunky[0]), 3)
+        self.assertEqual(len(chunky[-1]), 3)

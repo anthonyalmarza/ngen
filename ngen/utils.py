@@ -44,6 +44,9 @@ class TimerContext(object):
         a context manager that can be used to record the time taken to execute
         a sequence of functions.
     """
+    start = None
+    finish = None
+    delta = None
 
     def __init__(self, path=None, name=None):
         self.path = path or DEFAULT_PATH
@@ -53,7 +56,7 @@ class TimerContext(object):
         self.start = time.time()
         return self
 
-    def __exit__(self, exc_type, exc_value, tb):
+    def __exit__(self, exc_type, exc_value, tracebk):
         self.finish = time.time()
         self.delta = self.finish - self.start
         with open(self.path, 'a') as _file:
@@ -105,8 +108,16 @@ class cached_property(object):
         self.__doc__ = getattr(func, '__doc__')
         self.name = name or func.__name__
 
-    def __get__(self, instance, type=None):
+    def __get__(self, instance, cls=None):
         if instance is None:
             return self
         res = instance.__dict__[self.name] = self.func(instance)
         return res
+
+
+def chunk(array, size, strict=False):
+    last = None if not strict else len(array) / size
+    return [
+        array[idx:idx + size]
+        for idx in xrange(0, len(array), size)
+    ][:last]
