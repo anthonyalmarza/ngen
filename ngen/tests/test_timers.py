@@ -1,10 +1,13 @@
-from twisted.trial.unittest import TestCase
+from __future__ import unicode_literals, absolute_import, print_function
+from unittest import TestCase
 
 from ngen.utils import TimerContext, timer, simple_timer, DEFAULT_PATH
 
-import __builtin__
+try:
+    import mock
+except ImportError:
+    from unittest import mock
 
-import mock
 import time
 
 
@@ -68,8 +71,8 @@ class TimerTests(TestCase):
         mocked_open = mock.mock_open()
         self._file = mocked_open.return_value
 
-        self.patcher = mock.patch.object(
-            __builtin__, 'open', mocked_open
+        self.patcher = mock.patch(
+            'ngen.utils.open', mocked_open
         )
         self._open = self.patcher.start()
         self.dummy = DummyClass()

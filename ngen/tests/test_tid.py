@@ -1,7 +1,10 @@
-from twisted.trial.unittest import TestCase
+from __future__ import unicode_literals, absolute_import, print_function
+from unittest import TestCase
 from datetime import datetime, timedelta
 
+import six
 from ngen.tid import DateTime, ISO_8601, RFC_3339
+
 
 
 class TimestampTests(TestCase):
@@ -49,7 +52,7 @@ class TimestampTests(TestCase):
         self.assertIsInstance(tstamp, float)
 
     def _test_timestamp_template(self, stamp, has_microseconds=False):
-        self.assertIsInstance(stamp, basestring)
+        self.assertIsInstance(stamp, six.string_types)
         self.assertEqual(len(stamp.split('-')), 3)
         self.assertTrue('T' in stamp)
         self.assertTrue('Z' in stamp)

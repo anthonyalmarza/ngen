@@ -1,33 +1,24 @@
+from __future__ import absolute_import, print_function, unicode_literals
+
+from datetime import date, datetime
+from unittest import TestCase
+
 from ngen import validators
-from twisted.trial.unittest import TestCase
-
-from datetime import datetime, date
-
 
 NOW = datetime.utcnow()
 TODAY = date.today()
 
 
-class Field(object):
-    pass
-
-
 class ValidatorTests(TestCase):
 
-    def setUp(self):
-        self.field = Field()
-        self.field.name = 'foo'
-        self.field.min_length = 3
-        self.field.max_length = 5
-
-    def _tester(self, func, success, failure):
-        for value in success:
-            ret = func(self.field, value)
+    def _tester(self, func, expected_successes, expected_failures):
+        for value in expected_successes:
+            ret = func(value)
             self.assertEqual(ret, value)
 
-        for value in failure:
+        for value in expected_failures:
             self.assertRaises(
-                validators.ValidationError, func, self.field, value
+                validators.ValidationError, func, value
             )
 
     def test_is_int(self):
@@ -104,27 +95,30 @@ class ValidatorTests(TestCase):
 
         self.assertRaises(
             validators.ValidationError,
-            validators.check_length, self.field, 'a'
+            validators.check_length, 'a', min_length=3
         )
 
         self.assertRaises(
             validators.ValidationError,
-            validators.check_length, self.field, 'ab'
+            validators.check_length, 'ab', min_length=3
         )
 
         expected = 'foo'
-        ret = validators.check_length(self.field, expected)
+        ret = validators.check_length(expected, min_length=3, max_length=5)
         self.assertEqual(ret, expected)
 
         expected += 'b'
-        ret = validators.check_length(self.field, expected)
+        ret = validators.check_length(expected, min_length=3, max_length=5)
         self.assertEqual(ret, expected)
 
         expected += 'a'
-        ret = validators.check_length(self.field, expected)
+        ret = validators.check_length(expected, min_length=3, max_length=5)
         self.assertEqual(ret, expected)
 
         self.assertRaises(
             validators.ValidationError,
-            validators.check_length, self.field, 'foobar'
+            validators.check_length,
+            'foobar',
+            min_length=3,
+            max_length=5
         )

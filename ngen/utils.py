@@ -1,21 +1,10 @@
+from __future__ import unicode_literals, absolute_import, print_function
 from functools import wraps
-from twisted.internet import reactor
 
 import time
 
 
 DEFAULT_PATH = '_tmp.log'
-
-
-def threaded(func):
-    """
-        method decorator that will run the wrapped function in a thread
-        managed by twisted's reactor
-    """
-    @wraps(func)
-    def wrapper(self, *args, **kwargs):
-        reactor.callInThread(func, self, *args, **kwargs)
-    return wrapper
 
 
 def simple_timer(func):
@@ -116,8 +105,8 @@ class cached_property(object):
 
 
 def chunk(array, size, strict=False):
-    last = None if not strict else len(array) / size
+    last = None if not strict else len(array) // size
     return [
         array[idx:idx + size]
-        for idx in xrange(0, len(array), size)
+        for idx in range(0, len(array), size)
     ][:last]
