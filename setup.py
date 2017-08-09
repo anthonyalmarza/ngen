@@ -17,8 +17,8 @@ setup(
         'Operating System :: OS Independent',
         'Programming Language :: Python',
     ],
-    keywords=['singletons', ],
-    install_requires=['six', 'twisted'],
+    keywords=['singletons', 'parsers', 'transitions', 'timers'],
+    install_requires=['six', 'future'],
     extras_require={'dev': ['ipdb', 'mock']},
     include_package_data=True
 )

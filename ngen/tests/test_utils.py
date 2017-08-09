@@ -1,4 +1,5 @@
-from twisted.trial.unittest import TestCase
+from __future__ import unicode_literals, absolute_import, print_function
+import  unittest
 from ngen.utils import cached_property, chunk
 
 
@@ -14,10 +15,13 @@ class Thing(object):
         return self.multiplier * 3
 
 
-class UtilsTests(TestCase):
+class UtilsTests(unittest.TestCase):
 
     def setUp(self):
         self.instance = Thing(4)
+
+    def test_cached_property_on_class(self):
+        self.assertIsInstance(Thing.stuff, cached_property)
 
     def test_cached_property(self):
         self.assertTrue('stuff' not in self.instance.__dict__)
@@ -68,3 +72,6 @@ class UtilsTests(TestCase):
 
         self.assertEqual(len(chunky[0]), 3)
         self.assertEqual(len(chunky[-1]), 3)
+
+if __name__ == '__main__':
+    unittest.main()

@@ -8,6 +8,7 @@
 Currently available:
 
 * Singletons
+* Models
 
 On it's way:
 

@@ -1,0 +1,6 @@
+[run]
+source = ./ngen
+omit = */tests/*.py
+
+[report]
+omit = */tests/*.py

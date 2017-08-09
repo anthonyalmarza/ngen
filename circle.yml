@@ -1,0 +1,9 @@
+machine:
+  post:
+    - pyenv global 2.7.12 3.5.2 3.6.2
+
+deployment:
+  pypi:
+    branch: master
+    commands:
+      - echo "Hi"
