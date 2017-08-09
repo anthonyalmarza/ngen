@@ -64,4 +64,4 @@ venv
 *.sqlite3
 _trial_temp
 
-.vscode
+.vscode/
