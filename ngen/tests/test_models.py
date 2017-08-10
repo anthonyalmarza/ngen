@@ -10,6 +10,7 @@ except ImportError:
 from ngen.exceptions import ValidationError
 from ngen.models import (
     BaseOptions,
+    BooleanField,
     CharField,
     Field,
     FieldError,
@@ -98,7 +99,15 @@ class TestModelMeta(unittest.TestCase):
 
     def test_str(self):
         meta = ModelMeta()
-        meta.field_names = ['foo', 'bar']
+
+        field1 = mock.MagicMock()
+        field1.name = 'foo'
+        meta.add_field(field1)
+
+        field2 = mock.MagicMock()
+        field2.name = 'bar'
+        meta.add_field(field2)
+
         self.assertEqual(str(meta), 'foo, bar')
 
     def test_repr(self):
@@ -114,6 +123,29 @@ class TestModelMeta(unittest.TestCase):
         self.assertEqual(field.rel_idx, 0)
         self.assertTrue(field in meta.fields)
         self.assertTrue('test' in meta.field_names)
+
+    def test_add_field_with_field_replacement(self):
+        meta = ModelMeta()
+
+        field1 = mock.MagicMock()
+        field1.name = 'foo'
+        meta.add_field(field1)
+
+        field2 = mock.MagicMock()
+        field2.name = 'bar'
+        meta.add_field(field2)
+
+        self.assertTrue(meta.get_field('foo'), field1)
+        self.assertTrue(meta.fields[0], field1)
+        self.assertTrue(meta.fields[1], field2)
+
+        field3 = mock.MagicMock()
+        field3.name = 'foo'
+        meta.add_field(field3)
+
+        self.assertTrue(meta.get_field('foo'), field3)
+        self.assertTrue(meta.fields[0], field3)
+        self.assertTrue(meta.fields[1], field2)
 
 
 class TestModelType(unittest.TestCase):
@@ -508,6 +540,11 @@ class TestFields(unittest.TestCase):
         field = CharField()
         self.assertRaises(ValidationError, field.run_validators, None)
         self.assertEqual(field.run_validators('foo'), None)
+
+    def test_BooleanField_validators(self):
+        field = BooleanField()
+        self.assertRaises(ValidationError, field.run_validators, None)
+        self.assertEqual(field.run_validators(False), None)
 
 
 # the following is here to help with debugging

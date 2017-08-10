@@ -4,7 +4,7 @@ and extendible means of parsing data into a native python structure.
 from __future__ import absolute_import, print_function, unicode_literals
 
 from abc import ABCMeta, abstractmethod
-from collections import Mapping
+from collections import Mapping, OrderedDict
 from itertools import count
 from logging import getLogger
 
@@ -96,8 +96,7 @@ class ModelMeta(object):
     """
     def __init__(self, model=None, **kwargs):
         self.model = model
-        self.fields = []
-        self.field_names = []
+        self.fields_map = OrderedDict()
         for key, value in kwargs.items():
             setattr(self, key, value)
 
@@ -111,9 +110,19 @@ class ModelMeta(object):
         """Responsible for adding the Field instance to the set of fields
         registered to the meta.fields.
         """
-        field.rel_idx = len(self.fields)
-        self.field_names.append(field.name)
-        self.fields.append(field)
+        field.rel_idx = len(self.fields_map)
+        self.fields_map[field.name] = field
+
+    def get_field(self, name):
+        return self.fields_map.get(name)
+
+    @property
+    def field_names(self):
+        return list(self.fields_map.keys())
+
+    @property
+    def fields(self):
+        return list(self.fields_map.values())
 
 
 class ModelType(ABCMeta):
@@ -491,3 +500,9 @@ class CharField(Field):
     """Simple field that validates the target value is any string type.
     """
     validators = (_validators.is_char, )
+
+
+class BooleanField(Field):
+    """Simple field that validates that the target value is a boolean.
+    """
+    validators = (_validators.is_bool, )
